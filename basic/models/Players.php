@@ -13,7 +13,10 @@ class Players extends ActiveRecord
     /**
      * @return array the validation rules.
      */
-    
+        public static function tableName()
+    {
+        return 'players';
+    }
     public function rules()
     {
         return [

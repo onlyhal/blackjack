@@ -89,3 +89,110 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+
+.badge-success{
+    background: #006633;
+    color: #fff;
+}
+.badge-danger{
+    background: #990000;
+    color: #fff;
+}
+
+
+.border{
+    border: 2px solid #222222;
+}
+
+.game-table{
+    min-height: 600px;
+    background: #00a083; /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover, #00a083 0%, #00a083 43%, #006e2e 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#00a083), color-stop(43%,#00a083), color-stop(100%,#006e2e)); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover, #00a083 0%,#00a083 43%,#006e2e 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover, #00a083 0%,#00a083 43%,#006e2e 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover, #00a083 0%,#00a083 43%,#006e2e 100%); /* IE10+ */
+background: radial-gradient(ellipse at center, #00a083 0%,#00a083 43%,#006e2e 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a083', endColorstr='#006e2e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+-webkit-box-shadow: 0px 0px 20px 4px rgba(0,0,0,0.38);
+-moz-box-shadow:    0px 0px 20px 4px rgba(0,0,0,0.38);
+box-shadow:         0px 0px 20px 4px rgba(0,0,0,0.38);
+
+}
+
+.lefter{
+    float: left;
+}
+
+.p-l-xxs{
+    padding-left: 5px !important;
+}
+.p-l-xxs{
+    padding-left: 10px !important;
+}
+.pad{
+    padding: 10px 20px;
+}
+.p-r{
+    padding-right: 10px;
+}
+.p-t{
+    padding-top: 5px;
+}
+
+#msg{
+    display:none;
+}
+.darkness{
+    position: fixed;
+    background: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100000;
+}
+.darkness > .block{
+    padding-top: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+    top: 50px;
+}
+
+.cancel{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: rgba(0,0,0,0.9);
+    color: #cccccc;
+    padding: 1px 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cancel:hover{
+    color: #fff;
+    background: black;
+    text-decoration: none;
+}
+table th{
+    text-align: center;
+}
+
+.bottom{
+    position: absolute;
+    bottom: 0;
+}
+
+.m-lg{
+    margin: 20px 0;
+}
+
+
+.text-white{
+    color: #fff;
+}

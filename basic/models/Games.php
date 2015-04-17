@@ -13,7 +13,10 @@ class Games extends ActiveRecord
     /**
      * @return array the validation rules.
      */
-    
+        public static function tableName()
+    {
+        return 'games';
+    }
     public function rules()
     {
         return [
