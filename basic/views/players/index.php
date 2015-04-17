@@ -3,18 +3,18 @@
     use yii\widgets\ActiveForm;
     use app\models\Players;
 ?>
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin([
+        'id' => 'players-date_born',
+        'options' => ['class' => 'red'],
+        ]); ?>
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'lastname') ?>
-<?= $form->field($model, 'date_born') ?>
 
-<?php 
-// $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-//'captchaAction' => '/site/default/captcha',
-//'options' => ['class' => 'form-control'],
-//'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-9">{input}</div></div>',
-//]) 
-?>
+<div class="red field-players-date_born ">
+<label class="control-label" for="players-date_born">Date Born</label>
+<input id="players-date_born" class="form-control datepicker" name="Players[date_born]" type="text">
+</div>
+
 
 <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'btn btn-primary']) ?>
 <?php ActiveForm::end(); ?>

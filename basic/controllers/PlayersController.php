@@ -7,32 +7,30 @@ use Yii;
 use yii\web\Controller;
 use app\models\Players;
 use app\models\Games;
-use yii\web\Session;
 
 class PlayersController extends Controller
 {    
     
-    public $session;
     public function actionIndex()
     {
-        if(Yii::$app->session['id_user']){
+        if(Yii::$app->session['id_user']){  //user has been already initialized
             $id = Yii::$app->session['id_user'];
-            $model = Players::findOne($id); 
-            $games = Games::find()->where(['id_player' => $id])->all();
+            $model = Players::findOne($id);  //user info
+            $games = Games::find()->where(['id_player' => $id])->all(); //user's games info
             
-            return $this->render('game', [
+            return $this->render('game', [      //pass to the view
                                         'model' => $model,
                                         'games' => $games
                                         ]); 
         }        
-        else{
+        else{   //new user
             $model = new Players();
-            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {  //if data is valid
                 $model->save();
-                Yii::$app->session['id_user'] = $model->id;
-                return $this->render('game', ['model' => $model]);            
-            } else {
-                return $this->render('index', ['model' => $model]);
+                Yii::$app->session['id_user'] = $model->id;     //save id to session
+                return $this->render('game', ['model' => $model]);      //pass to view        
+            } else {                                                    //guest
+                return $this->render('index', ['model' => $model]);  
             }
         }
     }
@@ -41,8 +39,8 @@ class PlayersController extends Controller
         if(! Yii::$app->session->get('score')){ Yii::$app->session['score'] = 0; } //initialize session's variable if it hasn't been initialized
         
         if(! Yii::$app->session->get('deck')){
-            $deck = [       //quantity of cards
-                        2 => 4,
+            $deck = [      
+                        2 => 4,   // 2 - card value, 4 - quantity
                         3 => 4,
                         4 => 4,
                         5 => 4,
@@ -59,11 +57,11 @@ class PlayersController extends Controller
         $deck = Yii::$app->session['deck'];
         
         $hand = rand(2,11);
-        $i = 0;
+        $i = 0; //control of cards quantity 
         while($deck[$hand] === 0 && $i <= 11){ 
-           // $hand = ($hand === 11) ? 2 : $hand++;
-            if($hand === 11){
-                $hand = 2;
+           // $hand = ($hand === 11) ? 2 : $hand++;  //isn't working
+            if($hand === 11){ //last card
+                $hand = 2;      //back to first card
             } else { $hand++; }
             $i++;
         }
@@ -90,14 +88,14 @@ class PlayersController extends Controller
             
             $game = new Games; 
             $game->id_player = $id;
-            $game->date = date('Y-m-d H:i:s'); 
+            $game->date = date('Y-m-d H:i:s');   //current date
             $game->score = $score;
-            $game->save();
+            $game->save();  //save to base the score of the last game
             
             Yii::$app->session['score'] = null;
             Yii::$app->session['deck'] = null;
 
-        } else{ $score = 0; }
+        } else{ $score = 0; }  // user pressed "Stand" from the start
         return $score;
     }
     
@@ -108,7 +106,7 @@ class PlayersController extends Controller
         return $this->redirect('index.php');
     }
     
-    public function actionShowbest(){
+    public function actionShowbest(){   
         $best = (new \yii\db\Query())->select('*')
                             ->from('games')
                             ->innerJoin('players', 'games.id_player = players.id')
