@@ -1,25 +1,59 @@
+function CurDate(){
+    var        
+        dt = new Date(),
+        
+        seconds = dt.getSeconds(),
+        minutes = dt.getMinutes(),
+           hour = dt.getHours(),
+            day = dt.getDate(),
+          month = dt.getMonth()+1,
+           year = dt.getFullYear();
+
+    if (seconds<10) seconds='0'+seconds;
+    if (minutes<10) minutes='0'+minutes;
+    if (hour<10)    hour='0'+hour;
+    
+    if (month<10) month='0'+month;
+    if (day<10) day='0'+day;
+
+    var 
+        dateStr = hour+':'+minutes+':'+seconds+' <strong>'+day+'.'+month+'.'+year+'</strong>'; 
+    
+    return dateStr;      
+}
+
 function hit(){
     $.post('index.php?r=players%2Fgetrandom', function(data){
         var
             $hand = $('#hands'),
-            $games = $('#games');
-        $hand.append('<li>'+data+'</li>'); 
+            $games = $('#games'),
+            string ='';
+            
+        $.post('index.php?r=players%2Fgetprob',
+            function(prob){
+                if(prob) {
+                    string = '<li>'+data+' '+ parseFloat(prob).toFixed(1) +'% </li>'; 
+                    $hand.append(string);
+                }    
+            }); 
+            
+        
         switch(true){
             case (data > 21):   $.post('index.php?r=players%2Fdestroyses',
                                     function(ses){
-                                        alert(ses +' You lose. Go kill yourself.');
-                                        $games.append('<li><span class="badge badge-danger">'+data+'</span></li>'); 
+                                        showMsg(2, ses);
+                                        
+                                        $games.append('<li><span class="badge badge-danger">'+data+'</span>('+ CurDate() +')</li>'); 
                                         $hand.children().remove();
-                                        if(ses){getBest();}
                                     }); 
                                     
                                     break;
             case (data == 21): $.post('index.php?r=players%2Fdestroyses',
                                     function(ses){
-                                        alert(ses + ' Beer for this guy!');
-                                        $games.append('<li><span class="badge badge-success">'+data+'</span></li>');
+                                        showMsg(1, ses);
+                                        
+                                        $games.append('<li><span class="badge badge-success">'+data+'</span>('+ CurDate() +')</li>');
                                         $hand.children().remove();
-                                        if(ses){getBest();}
                                     });      
                                     break;
         }
@@ -32,10 +66,10 @@ function stand(){
             $games = $('#games');
     $.post('index.php?r=players%2Fdestroyses',
         function(ses){
-            alert(ses + ' Chicken.');
-            $games.append('<li><span class="badge">'+ses+'</span></li>');
+            $games.append('<li><span class="badge">'+ses+'</span>('+ CurDate() +')</li>');
             $hand.children().remove();
-            if(ses){getBest();}
+            
+            showMsg(3, ses);
         }); 
                                    
 }
@@ -47,15 +81,48 @@ function getBest(){
     $.post('index.php?r=players%2Fshowbest',
         function(data){
                $.each(JSON.parse(data), function() {
-                   $users.append('<tr> <td>'+ this.lastname +' '+ this.name+'</td><td>'+ this.date_born+'</td> <td>'+ this.score +'</td> <td>'+ this.date +'</td></tr>');
+                    var
+                        dateBornArr = this.date_born.split('-'),
+                        dateBorn = dateBornArr[2]+'.'+ dateBornArr[1]+'.'+ dateBornArr[0],
+                        dateGameArr = this.date.split(' '),
+                        dateGameArr = this.date.split(' '),
+                        dateGameArr2 = dateGameArr[0].split('-'),
+                        dateGame = dateGameArr2[2]+'.'+dateGameArr2[1]+'.'+dateGameArr2[0];
+                    $users.append('<tr> <td>'+ this.lastname +' '+ this.name+'</td><td>'+dateBorn+'</td><td>'+ this.score +'</td> <td>'+ dateGameArr[1] +' '+ dateGame +'</td></tr>');
                });
-               $('#msg').show();
+               $('#msg-win').slideUp();
+               $('#msg').fadeIn();
 
         });
 };
 
+function showMsg(event, points){
+    var
+        $motivation = $("#motivation"),
+        bender = 'bender',
+        moivation = '',
+        $bender = $("#bender");
+
+    $motivation.children('h2').remove();
+    $bender.children('img').remove();
+    switch(event){
+        case 1: bender = 'bender-win'; motivation = points+' - You win. Congratulations!'; break;
+        case 2: motivation = points+' - You lose. Go create your own blackjack!'; break;
+        case 3: motivation = 'Go cry alone with your '+points+', Chicken!'; break;
+    }
+    
+    $bender.prepend('<img src="img/'+bender+'.jpg" style="width: 100%;" alt="">');
+    $motivation.prepend('<h2 class="m-t-b text-center">'+motivation+'</h2>');  
+    $('#msg-win').slideDown();
+    $('html, body').animate({
+        scrollTop: $("#msg-win").offset().top - 50
+    }, 1000);
+}
+
 $(document).ready(function(){
     $('.cancel').on( "click", function(){
-        $("#msg").hide();
+        $(this).parent().parent().slideUp();
     }); 
 });
+
+

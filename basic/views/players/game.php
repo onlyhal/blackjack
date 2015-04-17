@@ -18,6 +18,23 @@
     </div>
 </div>
 
+<div id="msg-win">
+    <div class="row">
+        <a href="#" class="cancel">&times;</a>
+        <div class="col-lg-4" id="bender">
+            <img src="img/bender.jpeg" style="width: 100%;" alt="">
+        </div>
+        <div class="col-lg-8" id="motivation">
+            <h2 class="m-t-b col-lg-12 text-center">You lose. go create your own blackjack</h2>
+                        <div class="col-lg-12 text-center">
+                            <button class="" onclick="getBest()">3 highest results</button>
+                        </div>
+
+        </div>
+    </div>
+</div>
+
+
 <div class="alert alert-info">
     
         <i class="lefter p-r p-t fa fa-info-circle fa-2x"></i>
@@ -37,6 +54,9 @@
                 <?php
                 if($games){
                     foreach ($games as $game):
+                        
+                        $date_array = explode(' ', $game->date);
+                        $date_array2 = explode('-', $date_array[0]);
                 ?>
                 <li><span class="badge
                           <?php 
@@ -44,7 +64,7 @@
                           ?>
                           "> 
                         <?=$game->score ?>
-                    </span>(<?=$game->date ?>)</li>
+                    </span>(<?=$date_array[1]?> <strong><?=$date_array2[2]?>.<?=$date_array2[1]?>.<?=$date_array2[0]?>)</strong></li>
                 <?php endforeach; }?>
             </ol>
         </div>
@@ -61,4 +81,3 @@
 </div>
 
 
-<button onclick="getBest()">3 лучших</button>

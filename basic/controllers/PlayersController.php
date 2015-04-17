@@ -50,7 +50,7 @@ class PlayersController extends Controller
                         7 => 4,
                         8 => 4,
                         9 => 4,
-                        10 => 16, //queen, jack, king
+                        10 => 16, //queen, jack, king, 10
                         11 => 4, //ace
             ];
             Yii::$app->session['deck'] = $deck;
@@ -71,6 +71,11 @@ class PlayersController extends Controller
         Yii::$app->session['deck'] = $deck;
         
         $score = Yii::$app->session->get('score');  
+        
+        if($hand === 11 && ($score + $hand) > 21){ //if ace and score is bigger then 21
+            $hand = 1;
+        }
+        
         $score += $hand; 
         Yii::$app->session['score'] = $score;
         
@@ -92,7 +97,7 @@ class PlayersController extends Controller
             Yii::$app->session['score'] = null;
             Yii::$app->session['deck'] = null;
 
-        } else{ $score = 'Сессии не создана'; }
+        } else{ $score = 0; }
         return $score;
     }
     
@@ -115,10 +120,23 @@ class PlayersController extends Controller
        
        echo json_encode($best);
     }
-    
-    
+        
     public function actionGetprob(){
         
+        $deck = Yii::$app->session['deck'];
+        $score = Yii::$app->session['score'];
+        $n = 0; //all possible events
+        $m = 0; //events when user loses
+        
+        for($i = 2; $i <= 11; $i++){ //check all cards
+            if($deck[$i] > 0){  //only cards that wasn't used
+                $n+= $deck[$i]; 
+                if(($i + $score) > 21){ 
+                    $m+= $deck[$i];
+                }
+            }
+        }
+        $prob = 100*($m / $n); //100 for percent format
         return $prob;
     }
 }

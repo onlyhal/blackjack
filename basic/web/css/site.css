@@ -106,7 +106,7 @@ a.desc:after {
 }
 
 .game-table{
-    min-height: 600px;
+    min-height: 200px;
     background: #00a083; /* Old browsers */
 background: -moz-radial-gradient(center, ellipse cover, #00a083 0%, #00a083 43%, #006e2e 100%); /* FF3.6+ */
 background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#00a083), color-stop(43%,#00a083), color-stop(100%,#006e2e)); /* Chrome,Safari4+ */
@@ -142,8 +142,18 @@ box-shadow:         0px 0px 20px 4px rgba(0,0,0,0.38);
     padding-top: 5px;
 }
 
-#msg{
+  @media only screen and (min-width: 1280px){
+.m-t-b{
+    margin-top: 120px !important;
+}
+
+  }
+  
+#msg, #msg-win{
     display:none;
+}
+#msg-win{
+    position: relative;
 }
 .darkness{
     position: fixed;
@@ -172,6 +182,7 @@ box-shadow:         0px 0px 20px 4px rgba(0,0,0,0.38);
     padding: 1px 8px;
     font-size: 16px;
     cursor: pointer;
+    z-index: 1029;
 }
 
 .cancel:hover{
