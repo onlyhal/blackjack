@@ -68,17 +68,16 @@ class PlayersController extends Controller
         $deck[$hand]--; 
         Yii::$app->session['deck'] = $deck;
         
-        $score = Yii::$app->session->get('score');  
-        
-        if($hand === 11 && ($score + $hand) > 21){ //if ace and score is bigger then 21
+        $score = Yii::$app->session->get('score');
+        if(($hand === 11) && (($score + $hand) > 21)){ //if ace and score is bigger then 21
             $hand = 1;
         }
         
         $score += $hand; 
         Yii::$app->session['score'] = $score;
         
-        
-        return $score;
+        $vars = array($score, $hand);
+        return json_encode($vars);
     }
     
     public function actionDestroyses(){
@@ -112,7 +111,7 @@ class PlayersController extends Controller
                             ->innerJoin('players', 'games.id_player = players.id')
                             ->where('score <= 21')
                             ->limit(3)
-                            ->orderBy('score desc')
+                            ->orderBy('score desc, date desc')
                             ->all();
                             
        
@@ -125,16 +124,22 @@ class PlayersController extends Controller
         $score = Yii::$app->session['score'];
         $n = 0; //all possible events
         $m = 0; //events when user loses
-        
+         
         for($i = 2; $i <= 11; $i++){ //check all cards
             if($deck[$i] > 0){  //only cards that wasn't used
                 $n+= $deck[$i]; 
-                if(($i + $score) > 21){ 
-                    $m+= $deck[$i];
+                if(($i + $score) > 21 && $i != 11){  // and not ace
+                    $m += $deck[$i];
+                } 
+                elseif($i == 11 && (1 + $score) > 21){ // if ace
+                    $m += $deck[$i];
+                    }
                 }
             }
-        }
+        if($n == 0){ $prob=0;}
+        else{
         $prob = 100*($m / $n); //100 for percent format
+        }
         return $prob;
     }
 }

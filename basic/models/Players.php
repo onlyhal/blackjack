@@ -22,6 +22,7 @@ class Players extends ActiveRecord
         return [
             // username and password are both required
             [['name', 'lastname', 'date_born'], 'required'],
+            [['date_born',], 'date', 'format' => 'yyyy-MM-dd'],  
             // rememberMe must be a boolean value
             //['rememberMe', 'boolean'],
             // password is validated by validatePassword()

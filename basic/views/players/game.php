@@ -48,13 +48,12 @@
     </h3> 
 </div>
 <div class="row">
-    <div class="col-lg-12 border">
+    <div class="col-lg-12 border p-b">
             <h4>Your previous games</h4>
             <ol id="games">
                 <?php
                 if($games){
                     foreach ($games as $game):
-                        
                         $date_array = explode(' ', $game->date);
                         $date_array2 = explode('-', $date_array[0]);
                 ?>
@@ -73,6 +72,9 @@
     <div class="col-lg-12 game-table m-lg">
         <ol id="hands" class="text-white">
         </ol>
+        <div class="col-lg-12 text-center">
+            <span id="score"></span>
+        </div>
         <div class="col-lg-12 text-right bottom">
             <button class="btn" onclick="hit()">Hit</button>
             <button class="btn" onclick="stand()">Stand</button>

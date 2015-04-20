@@ -26,38 +26,42 @@ function hit(){
     $.post('index.php?r=players%2Fgetrandom', function(data){
         var
             $hand = $('#hands'),
-            $games = $('#games'),
-            string ='';
-            
+            string ='',
+            valuesArr = JSON.parse(data);
         $.post('index.php?r=players%2Fgetprob',
             function(prob){
                 if(prob) {
-                    string = '<li>'+data+' '+ parseFloat(prob).toFixed(1) +'% </li>'; 
-                    $hand.append(string);
+                    string = '<li><span class="card">'+valuesArr[1]+'</span></li>'; 
+                    $('#score').html('Your score: <span class="score">'+ valuesArr[0] +'</span> <br>(<strong>'+ parseFloat(prob).toFixed(1) +'% </strong>chance that you will lose)');
+                    $.when($hand.append(string)).then(checkValue(valuesArr[0]));
                 }    
             }); 
-            
-        
-        switch(true){
-            case (data > 21):   $.post('index.php?r=players%2Fdestroyses',
+      
+        });
+};
+function checkValue(data){
+         var
+            $hand = $('#hands'),
+            $games = $('#games');
+   
+  switch(true){
+            case (data > 21): $.post('index.php?r=players%2Fdestroyses',
                                     function(ses){
-                                        showMsg(2, ses);
-                                        
-                                        $games.append('<li><span class="badge badge-danger">'+data+'</span>('+ CurDate() +')</li>'); 
                                         $hand.children().remove();
+                                        showMsg(2, ses);
+                                        $games.append('<li><span class="badge badge-danger">'+data+'</span>('+ CurDate() +')</li>'); 
                                     }); 
                                     
                                     break;
-            case (data == 21): $.post('index.php?r=players%2Fdestroyses',
-                                    function(ses){
-                                        showMsg(1, ses);
-                                        
-                                        $games.append('<li><span class="badge badge-success">'+data+'</span>('+ CurDate() +')</li>');
+            case (data == 21): 
+                $.post('index.php?r=players%2Fdestroyses',
+                                    function(ses){                
                                         $hand.children().remove();
+                                        showMsg(1, ses);                        
+                                        $games.append('<li><span class="badge badge-success">'+data+'</span>('+ CurDate() +')</li>');                        
                                     });      
                                     break;
-        }
-        });
+        }    
 };
 
 function stand(){
@@ -66,8 +70,9 @@ function stand(){
             $games = $('#games');
     $.post('index.php?r=players%2Fdestroyses',
         function(ses){
-            $games.append('<li><span class="badge">'+ses+'</span>('+ CurDate() +')</li>');
             $hand.children().remove();
+            $games.append('<li><span class="badge">'+ses+'</span>('+ CurDate() +')</li>');
+            
             
             showMsg(3, ses);
         }); 
@@ -100,7 +105,7 @@ function showMsg(event, points){
     var
         $motivation = $("#motivation"),
         bender = 'bender',
-        moivation = '',
+        motivation = '',
         $bender = $("#bender");
 
     $motivation.children('h2').remove();
@@ -123,6 +128,9 @@ $(document).ready(function(){
     $('.cancel').on( "click", function(){
         $(this).parent().parent().slideUp();
     }); 
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+    });
 });
 
 
