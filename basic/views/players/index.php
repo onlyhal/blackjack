@@ -3,7 +3,7 @@
     use yii\widgets\ActiveForm;
     use app\models\Players;
 ?>
-<h1 class="text-center">Welcome. <br><small>Write down your name, lastname, date of born and let's play.</small></h1>
+<h1 class="text-center">Welcome <br><small>Write down your name, lastname, date of born and let's play.</small></h1>
 <?php $form = ActiveForm::begin([
         'id' => 'players-date_born',
         'options' => ['class' => ''],

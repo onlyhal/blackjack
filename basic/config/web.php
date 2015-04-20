@@ -39,6 +39,16 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            //'routeParam' => 'action',
+            'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'rules' => array(
+                '<action>' => '/players/<action>',
+
+            ),
+        ],
     ],
     'params' => $params,
 ];

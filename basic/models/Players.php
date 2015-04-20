@@ -27,6 +27,18 @@ class Players extends ActiveRecord
             //['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             //['password', 'validatePassword'],
+            
+             ['date_born', 
+                function ($attr) {
+                    $diff = strtotime(date('Y-m-d'))-strtotime($this->$attr);
+                    $diff = $diff/(60*60*24*365);
+                    
+                    if($diff <= 18)  {
+                     $this->addError('date_born', "You're too young."); 
+                     return false;
+                    } else {return true;}
+                }
+        ],
         ];
     }
 

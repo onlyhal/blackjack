@@ -27,7 +27,7 @@
         <div class="col-lg-8" id="motivation">
             <h2 class="m-t-b col-lg-12 text-center">You lose. go create your own blackjack</h2>
                         <div class="col-lg-12 text-center">
-                            <button class="" onclick="getBest()">3 highest results</button>
+                            <button id="getBest">3 highest results</button>
                         </div>
 
         </div>
@@ -44,7 +44,7 @@
     <h3 class="col-lg-12">
         <?= $model->lastname; ?>
         <?= $model->name;?> 
-        <a href="/index.php?r=players%2Fuserexit"><i class="fa fa-sign-out"></i> Log out</a>
+        <a href="/userexit"><i class="fa fa-sign-out"></i> Log out</a>
     </h3> 
 </div>
 <div class="row">
@@ -76,8 +76,8 @@
             <span id="score"></span>
         </div>
         <div class="col-lg-12 text-right bottom">
-            <button class="btn" onclick="hit()">Hit</button>
-            <button class="btn" onclick="stand()">Stand</button>
+            <button class="btn" id="hit">Hit</button>
+            <button class="btn" id="stand" disabled="">Stand</button>
         </div>
     </div>
 </div>
